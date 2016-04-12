@@ -1,3 +1,5 @@
+package entities;
+
 import java.util.Date;
 
 /**
@@ -39,6 +41,8 @@ public class Song implements Comparable<Song> {
 
 
     public int compareTo(Song s) {
+        if(album == null || album.isEmpty())
+            return 0;
         return album.compareTo(s.getAlbum());
     }
 

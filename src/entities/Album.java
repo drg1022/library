@@ -1,9 +1,8 @@
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+package entities;
 
-public class Album {
+import java.util.*;
+
+public class Album implements Comparable<Album> {
 
     private String artist;
     private String albumArtist;
@@ -19,11 +18,20 @@ public class Album {
     private double totalTime;
     private int totalPlayCount;
     private double percentOfSongsRated;
+    private int songsRated;
 
     private Set<Song> songs = new HashSet<Song>();
     private boolean allRatingSet = true;
 
     public Album() {    }
+
+    public int compareTo(Album a) {
+        int result = albumArtist.compareTo(a.getArtist());
+        if(result == 0){
+            result = album.compareTo(a.getAlbum());
+        }
+        return result;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -55,14 +63,24 @@ public class Album {
             totalTime += (song.getTotalTime()/1000)/60;
             if(song.isRatingSet() && allRatingSet){
                 totalRating += song.getRating();
+                songsRated++;
             }else{
                 allRatingSet = false;
                 totalRating = 0;
             }
         }
         totalTracks = songs.size();
+        percentOfSongsRated = songsRated/totalTracks;
         if(totalRating!=0)
             totalRating = totalRating/totalTracks;
+    }
+
+    public double getPercentOfSongsRated() {
+        return percentOfSongsRated;
+    }
+
+    public void setPercentOfSongsRated(double percentOfSongsRated) {
+        this.percentOfSongsRated = percentOfSongsRated;
     }
 
     public Set getSongs() {

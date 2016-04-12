@@ -1,8 +1,6 @@
-@Grab( 'org.apache.poi:poi:3.9' )
-import static org.apache.poi.ss.usermodel.CellStyle.*
-import static org.apache.poi.ss.usermodel.IndexedColors.*
+import entities.Album
+import entities.Song
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
-import groovy.util.XmlSlurper
 
 def slurper = new XmlSlurper(false, false, true);
 slurper.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)

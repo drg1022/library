@@ -1,3 +1,5 @@
+package swing
+
 import groovy.swing.SwingBuilder
 import javax.swing.WindowConstants as WC
 import java.beans.PropertyChangeListener;

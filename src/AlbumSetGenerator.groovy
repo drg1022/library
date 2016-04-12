@@ -1,8 +1,6 @@
-@Grab( 'org.apache.poi:poi:3.9' )
-import static org.apache.poi.ss.usermodel.CellStyle.*
-import static org.apache.poi.ss.usermodel.IndexedColors.*
+import entities.Album
+import entities.Song
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
-import groovy.util.XmlSlurper
 
 def slurper = new XmlSlurper(false, false, true);
 slurper.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
@@ -12,6 +10,7 @@ def libraryFile = slurper.parse("C:\\dev\\workspaces\\library-ws\\library\\Itune
 
 def songs = libraryFile.dict.dict.dict
 
+//SortedSet albums = new TreeSet();
 Set albums = new ArrayList();
 
 Iterator songIt = songs.iterator()
@@ -153,6 +152,10 @@ new HSSFWorkbook().with { workbook ->
             createCell( colNum ).with { cell ->
                 setCellValue("Play Count")
             }
+            colNum++
+            createCell( colNum ).with { cell ->
+                setCellValue("% Rated")
+            }
             rowNum++;
         }
 
@@ -192,11 +195,15 @@ new HSSFWorkbook().with { workbook ->
                 createCell( colNum ).with { cell ->
                     setCellValue(album.getTotalPlayCount())
                 }
+                colNum++;
+                createCell( colNum ).with { cell ->
+                    setCellValue(album.getPercentOfSongsRated())
+                }
             }
             rowNum++;
         }
 
-        (0..7).each{ colNumber-> sheet.set(colNumber)}
+        (0..7).each{ colNumber-> sheet.autoSizeColumn(colNumber)}
 
         new File( 'C:\\dev\\workspaces\\library-ws\\library\\albumsTest.xls' ).withOutputStream { os ->
             write( os )
